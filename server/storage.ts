@@ -17,6 +17,13 @@ import type {
   InsertOvertimeItem
 } from "../shared/schema";
 
+if (!process.env.DATABASE_URL || process.env.DATABASE_URL === 'your_neon_postgresql_url_here') {
+  throw new Error(
+    "DATABASE_URL environment variable is not set or is using placeholder value. " +
+    "Please set DATABASE_URL to your actual Neon PostgreSQL connection string."
+  );
+}
+
 const sql = neon(process.env.DATABASE_URL!);
 const db = drizzle(sql, { schema });
 
